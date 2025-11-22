@@ -100,7 +100,7 @@ export default function CodeExamples() {
                       color: 'var(--color-text-muted)'
                     }}
                   >
-                    {t('tutorial.stepLabel', { number: index + 1 })}
+                    {t(`tutorial.stepLabel${index + 1}`)}
                   </p>
                   <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>
                     {t(`tutorial.steps.${step.key}.title`)}

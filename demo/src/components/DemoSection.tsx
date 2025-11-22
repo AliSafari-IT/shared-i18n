@@ -4,10 +4,10 @@ export default function DemoSection() {
   const { t } = useTranslation(['demo', 'common']);
   const { language, changeLanguage, isChanging } = useLanguage();
 
-  const getCookie = (name: string) => {
+    const getCookie = (name: string) => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop()?.split(';').shift();
+    if (parts.length === 2) return parts.pop()?.split(';').shift() ?? 'Not set';
     return 'Not set';
   };
 
