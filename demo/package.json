@@ -9,7 +9,7 @@
     "deploy": "pnpm build && gh-pages -d dist"
   },
   "dependencies": {
-    "@asafarim/shared-i18n": "workspace:*",
+    "@asafarim/shared-i18n": "^0.5.0",
     "react": "^19.0.0 || ^18.3.1",
     "react-dom": "^19.0.0 || ^18.3.1"
   },
