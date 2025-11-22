@@ -1,6 +1,6 @@
 {
   "name": "@asafarim/shared-i18n",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "type": "module",
   "files": [
     "locales",
@@ -63,12 +63,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/asafarim/shared-i18n.git"
+    "url": "https://github.com/AliSafari-IT/shared-i18n.git"
   },
   "bugs": {
-    "url": "https://github.com/asafarim/shared-i18n/issues"
+    "url": "https://github.com/AliSafari-IT/shared-i18n/issues"
   },
-  "homepage": "https://github.com/asafarim/shared-i18n#readme",
+  "homepage": "https://github.com/AliSafari-IT/shared-i18n#readme",
   "publishConfig": {
     "access": "public"
   }
