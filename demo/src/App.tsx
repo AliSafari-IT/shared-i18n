@@ -1,3 +1,4 @@
+// Provide a minimal local module declaration so TypeScript can resolve the package's types
 import { useTranslation } from '@asafarim/shared-i18n';
 import Hero from './components/Hero';
 import Features from './components/Features';
