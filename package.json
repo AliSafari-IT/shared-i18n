@@ -13,8 +13,6 @@
     "build": "tsc -b && node ./scripts/copy-css.js",
     "demo": "pnpm run build && cd demo && pnpm run dev",
     "prepublishOnly": "pnpm run build",
-    "predeploy": "pnpm run build && cd demo && pnpm run build && cd ..",
-    "deploy": "gh-pages -d demo/dist",
     "release": "node ./scripts/release.js"
   },
   "exports": {
