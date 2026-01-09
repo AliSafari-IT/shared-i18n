@@ -2,6 +2,8 @@
 
 Lightweight, simple translation module for any React + TypeScript app, built on top of i18next and react-i18next. It ships with sensible defaults (English and Dutch) but can support any language by adding JSON files to your locales folder.
 
+* see Demo at: [https://alisafari-it.github.io/shared-i18n/](https://alisafari-it.github.io/shared-i18n/)
+
 ## Features
 
 - 🌍 Works in any React + TypeScript project (monorepo or standalone)

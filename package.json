@@ -1,7 +1,7 @@
 {
   "name": "@asafarim/shared-i18n",
   "description": "A shared i18n package for React applications",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "type": "module",
   "files": [
     "dist",
