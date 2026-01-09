@@ -80,7 +80,7 @@
   "bugs": {
     "url": "https://github.com/AliSafari-IT/shared-i18n/issues"
   },
-  "homepage": "https://ali-safari-IT.github.io/shared-i18n",
+  "homepage": "https://alisafari-it.github.io/shared-i18n",
   "publishConfig": {
     "access": "public"
   }
