@@ -10,6 +10,8 @@ Lightweight, simple translation module for any React + TypeScript app, built on 
 - ⚙️ Optional backend sync for user language preferences
 - ⚡ Lazy loading support for app-specific translations
 - 🪝 React hooks for language management (useLanguage) and translations (useTranslation)
+- 🎨 Built-in LanguageSwitcher component with multiple variants (buttons, select, icon-dropdown)
+- 🚀 Configurable API URL resolution for flexible backend integration
 
 ## Installation
 
@@ -71,7 +73,25 @@ function MyComponent() {
 
 ### 3) Add a language switcher
 
-If you use @asafarim/shared-ui-react you can leverage its LanguageSwitcher component. Otherwise, call useLanguage directly.
+Use the built-in LanguageSwitcher component with multiple variants:
+
+```tsx
+import { LanguageSwitcher } from '@asafarim/shared-i18n/components';
+
+// Buttons variant (default)
+<LanguageSwitcher variant="buttons" />
+
+// Select dropdown
+<LanguageSwitcher variant="select" />
+
+// Icon-only dropdown with flag emojis
+<LanguageSwitcher variant="icon-dropdown" />
+
+// Custom languages subset
+<LanguageSwitcher variant="buttons" languages={['en', 'nl']} />
+```
+
+Or use the hook directly:
 
 ```tsx
 import { useLanguage } from '@asafarim/shared-i18n';
@@ -122,6 +142,61 @@ Notes:
 - If you pass supportedLngs, it will override the default supported languages.
 - defaultLanguage overrides the default fallback (which is English).
 
+## LanguageSwitcher Component
+
+The LanguageSwitcher component provides multiple UI variants for language selection with built-in styling using ASafariM design tokens.
+
+### Props
+
+```tsx
+interface LanguageSwitcherProps {
+  className?: string;
+  style?: React.CSSProperties;
+  languages?: readonly SupportedLanguage[];
+  variant?: "buttons" | "select" | "icon-dropdown";
+  disabled?: boolean;
+  getLabel?: (lang: SupportedLanguage) => string;
+  getIcon?: (lang: SupportedLanguage) => React.ReactNode;
+  onChanged?: (lang: SupportedLanguage) => void;
+  buttonClassName?: string;
+  selectClassName?: string;
+  showLabel?: boolean;
+  showIcon?: boolean;
+  showEmoji?: boolean;
+  unstyled?: boolean;
+  isToggler?: boolean;
+}
+```
+
+### Variants
+
+- **buttons** — Individual buttons for each language (default)
+- **select** — Native dropdown select element
+- **icon-dropdown** — Custom dropdown showing flag emojis with language codes
+
+### Examples
+
+```tsx
+// Buttons with custom styling
+<LanguageSwitcher 
+  variant="buttons"
+  buttonClassName="custom-btn"
+  languages={['en', 'nl', 'fr']}
+/>
+
+// Icon-only dropdown
+<LanguageSwitcher 
+  variant="icon-dropdown"
+  showEmoji={true}
+/>
+
+// Select with callback
+<LanguageSwitcher 
+  variant="select"
+  onChanged={(lang) => console.log(`Language changed to ${lang}`)}
+/>
+```
+
 ## API Reference
 
 ### initI18n(config?: I18nConfig)
@@ -149,6 +224,37 @@ Returns:
 ### useTranslation()
 
 Re-exported from react-i18next. See official docs.
+
+### getApiUrl(envVarName?, defaultUrl?)
+
+Configurable API URL resolver for flexible backend integration.
+
+Parameters:
+
+- envVarName — Environment variable name to check (default: 'VITE_API_URL')
+- defaultUrl — Default URL if no env var is set (default: 'http://localhost')
+
+Returns: Resolved API URL string
+
+### setApiUrlResolver(resolver)
+
+Set a custom API URL resolver function for complete control over URL resolution.
+
+Parameters:
+
+- resolver — Function that returns the API URL string
+
+Example:
+
+```tsx
+import { setApiUrlResolver, getApiUrl } from '@asafarim/shared-i18n/utils';
+
+// Custom resolver
+setApiUrlResolver(() => 'https://my-custom-api.example.com');
+
+// Or use environment variables
+const url = getApiUrl('VITE_CUSTOM_API_URL', 'https://fallback.example.com');
+```
 
 ## Cookie and backend integration
 
