@@ -1,0 +1,113 @@
+@import "@asafarim/design-tokens/css";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--asm-space-6);
+}
+
+.demoItem {
+  border: 1px solid var(--asm-color-border);
+  border-radius: var(--asm-radius-lg);
+  overflow: hidden;
+  background: var(--asm-color-surface);
+  transition: box-shadow var(--asm-motion-duration-fast) var(--asm-motion-easing-standard);
+}
+
+.demoItem:hover {
+  box-shadow: var(--asm-effect-shadow-md);
+}
+
+.demoHeader {
+  padding: var(--asm-space-4);
+  border-bottom: 1px solid var(--asm-color-border);
+  background: var(--asm-color-surface-muted);
+}
+
+.demoTitle {
+  margin: 0 0 var(--asm-space-2) 0;
+  font-size: var(--asm-font-size-sm);
+  font-weight: 600;
+  color: var(--asm-color-text);
+}
+
+.demoDescription {
+  margin: 0;
+  font-size: var(--asm-font-size-xs);
+  color: var(--asm-color-text-muted);
+  line-height: 1.5;
+}
+
+.demoContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.demoPreview {
+  padding: var(--asm-space-4);
+  border-right: 1px solid var(--asm-color-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--asm-space-3);
+}
+
+.demoCode {
+  padding: var(--asm-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--asm-space-3);
+  background: #fafafa;
+}
+
+.previewLabel,
+.codeLabel {
+  font-size: var(--asm-font-size-xs);
+  font-weight: 600;
+  color: var(--asm-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.codeBlock {
+  margin: 0;
+  padding: var(--asm-space-3);
+  background: var(--asm-color-surface);
+  border: 1px solid var(--asm-color-border);
+  border-radius: var(--asm-radius-md);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--asm-color-text);
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  overflow-x: auto;
+}
+
+@media (max-width: 1024px) {
+  .demoContent {
+    grid-template-columns: 1fr;
+  }
+
+  .demoPreview {
+    border-right: none;
+    border-bottom: 1px solid var(--asm-color-border);
+  }
+}
+
+@media (max-width: 640px) {
+  .demoItem {
+    border-radius: var(--asm-radius-md);
+  }
+
+  .demoHeader {
+    padding: var(--asm-space-3);
+  }
+
+  .demoPreview,
+  .demoCode {
+    padding: var(--asm-space-3);
+  }
+
+  .codeBlock {
+    font-size: 0.75rem;
+  }
+}

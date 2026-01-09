@@ -1,0 +1,85 @@
+{
+  "title": "Shared i18n demo",
+  "subtitle": "Een lichtgewicht React i18next wrapper met cookie persistentie.",
+  "cta": "Taal wisselen",
+  "overview": {
+    "heading": "Overzicht",
+    "description": "@asafarim/shared-i18n is een production-grade internationalisatie (i18n) pakket voor React-applicaties.",
+    "features": {
+      "title": "Belangrijkste Functies",
+      "items": [
+        "Ondersteuning voor meerdere talen met cookie persistentie",
+        "Ingebouwde taaldetectie en fallback",
+        "TypeScript-ondersteuning met volledige type veiligheid",
+        "Vooraf geconfigureerde common en identity-portal naamruimten",
+        "Naadloze integratie met react-i18next",
+        "Synchronisatie van taalvoorkeur met backend",
+        "SSR-veilige hulpprogramma's voor server-side rendering"
+      ]
+    },
+    "useCases": {
+      "title": "Ideaal Voor",
+      "items": [
+        "Globale applicaties die ondersteuning voor meerdere talen vereisen",
+        "Enterprise-platforms met taalvoorkeuren van gebruikers",
+        "Identiteits- en verificatiesystemen",
+        "Content management systemen met lokalisatie",
+        "SaaS-applicaties die internationale gebruikers bedienen"
+      ]
+    }
+  },
+  "getStarted": {
+    "heading": "Aan de Slag",
+    "intro": "Leer hoe je @asafarim/shared-i18n in minuten in je React-applicatie integreert.",
+    "steps": [
+      {
+        "title": "1. Installeer het Pakket",
+        "description": "Voeg het pakket toe aan je projectafhankelijkheden.",
+        "code": "pnpm add @asafarim/shared-i18n"
+      },
+      {
+        "title": "2. Initialiseer i18n in Je App",
+        "description": "Roep initI18n aan bij het opstarten van de applicatie om taalinstellingen te configureren.",
+        "code": "import { initI18n } from '@asafarim/shared-i18n';\n\ninitI18n({\n  defaultNS: 'common',\n  ns: ['common', 'identityPortal'],\n  resources: { /* je vertalingen */ }\n});"
+      },
+      {
+        "title": "3. Gebruik de useLanguage Hook",
+        "description": "Krijg toegang tot taalwisseling en huidige taaltoestand in je componenten.",
+        "code": "const { changeLanguage, isChanging } = useLanguage();\n\n<button onClick={() => changeLanguage('en')}>\n  Naar Engels\n</button>"
+      },
+      {
+        "title": "4. Vertaal met useTranslation",
+        "description": "Gebruik de useTranslation hook om toegang te krijgen tot vertaalde strings.",
+        "code": "const { t } = useTranslation('common');\n\n<h1>{t('welcome')}</h1>"
+      },
+      {
+        "title": "5. Maak Gebruik van Cookie Persistentie",
+        "description": "Taalvoorkeuren van gebruikers worden automatisch opgeslagen en hersteld.",
+        "code": "// Automatisch opgeslagen via cookies\n// Geen extra setup vereist!"
+      },
+      {
+        "title": "6. Synchroniseer met Backend (Optioneel)",
+        "description": "Werk taalvoorkeuren van gebruikers bij op je backend.",
+        "code": "import { updateUserLanguagePreference } from '@asafarim/shared-i18n';\n\nawait updateUserLanguagePreference('nl');"
+      }
+    ],
+    "tips": {
+      "title": "Pro Tips",
+      "items": [
+        "Gebruik naamruimten om vertalingen per functie in te delen",
+        "Maak gebruik van de Trans-component voor complexe vertalingen met variabelen",
+        "Stel VITE_IDENTITY_API_URL in voor backend-synchronisatie",
+        "Controleer browsertaldetectie met getInitialLanguage()",
+        "Combineer met design tokens voor consistent thema's in alle talen"
+      ]
+    }
+  },
+  "status": {
+    "heading": "Live status",
+    "cookie": "Cookie",
+    "backend": "Backend",
+    "simulate": "Backend synchronisatie simuleren",
+    "resultOk": "Backend synchronisatie geslaagd",
+    "resultFail": "Backend synchronisatie mislukt"
+  }
+}
