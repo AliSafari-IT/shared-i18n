@@ -172,7 +172,9 @@ interface LanguageSwitcherProps {
 
 - **buttons** — Individual buttons for each language (default)
 - **select** — Native dropdown select element
+  ![Select Dropdown](https://github.com/AliSafari-IT/shared-i18n/blob/main/demo/public/Select%20Dropdown_Text%20Only.png?raw=true)
 - **icon-dropdown** — Custom dropdown showing flag emojis with language codes
+  ![Icon Dropdown](https://github.com/AliSafari-IT/shared-i18n/blob/main/demo/public/Icon%20Dropdown_Limited%20Languages.png?raw=true)
 
 ### Examples
 
