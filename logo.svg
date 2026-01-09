@@ -1,0 +1,24 @@
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3A5AFE" />
+      <stop offset="100%" stop-color="#14B8A6" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.2" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0B1220" flood-opacity="0.28" />
+    </filter>
+  </defs>
+  <rect width="180" height="180" rx="32" fill="url(#bg)" filter="url(#shadow)" />
+  <g transform="translate(45 45)">
+    <path d="M45 0C20.147 0 0 20.147 0 45C0 69.853 20.147 90 45 90C69.853 90 90 69.853 90 45C90 20.147 69.853 0 45 0ZM45 72C29.088 72 15.75 58.662 15.75 42.75C15.75 26.838 29.088 13.5 45 13.5C60.912 13.5 74.25 26.838 74.25 42.75C74.25 58.662 60.912 72 45 72Z" fill="white" opacity="0.2" />
+    <path d="M24 27H66C70.971 27 75 31.029 75 36V54C75 58.971 70.971 63 66 63H24C19.029 63 15 58.971 15 54V36C15 31.029 19.029 27 24 27Z" fill="url(#accent)" />
+    <path d="M36 54V45C36 40.029 40.029 36 45 36C49.971 36 54 40.029 54 45V54" stroke="#0B1220" stroke-width="4" stroke-linecap="round" />
+    <circle cx="45" cy="21" r="6" fill="white" />
+    <path d="M33 69H57" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.7" />
+    <path d="M27 15H63" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.4" />
+  </g>
+</svg>
