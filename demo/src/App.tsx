@@ -7,8 +7,11 @@ import StatusCard from './components/StatusCard'
 import OverviewSection from './components/OverviewSection'
 import GetStartedSection from './components/GetStartedSection'
 import LanguageSwitcherDemo from './components/LanguageSwitcherDemo'
+import Logo from './components/Logo'
 
 type TabType = 'overview' | 'getStarted' | 'demo'
+
+
 
 export default function App() {
   const { t } = useTranslation('demo')
@@ -17,6 +20,7 @@ export default function App() {
   return (
     <div className="app-container">
       <header className="app-header">
+        <Logo />
         <div className="header-content">
           <h1>{t('title')}</h1>
           <p className="subtitle">{t('subtitle')}</p>
