@@ -20,6 +20,7 @@ export interface LanguageSwitcherProps {
   showEmoji?: boolean;
   unstyled?: boolean;
   isToggler?: boolean;
+  showLabelInIconDropdown?: boolean;
 }
 
 export const LanguageSwitcher = ({
@@ -38,6 +39,7 @@ export const LanguageSwitcher = ({
   showEmoji = true,
   unstyled = false,
   isToggler = true,
+  showLabelInIconDropdown = false,
 }: LanguageSwitcherProps) => {
   const { language, changeLanguage, isChanging } = useLanguage();
 
@@ -92,7 +94,7 @@ export const LanguageSwitcher = ({
         style={style}
       >
         <button
-          className={styles.iconDropdownButton}
+          className={`${styles.iconDropdownButton} ${showLabelInIconDropdown ? styles.iconDropdownButtonWithLabel : ""}`}
           onClick={() => setIsOpen(!isOpen)}
           disabled={isDisabled}
           title={currentLabel}
@@ -100,7 +102,16 @@ export const LanguageSwitcher = ({
           aria-expanded={isOpen}
           aria-haspopup="listbox"
         >
-          {currentFlag}
+          {showLabelInIconDropdown ? (
+            <span className={styles.iconDropdownButtonContent}>
+              <span className={styles.iconDropdownFlag} aria-hidden="true">
+                {currentFlag}
+              </span>
+              <span className={styles.iconDropdownLabel}>{currentLabel}</span>
+            </span>
+          ) : (
+            currentFlag
+          )}
         </button>
         {isOpen && (
           <div className={styles.iconDropdownMenu} role="listbox">
@@ -113,7 +124,14 @@ export const LanguageSwitcher = ({
                 aria-selected={lang === language}
                 title={getLabel ? getLabel(lang) : LANGUAGE_NAMES[lang]}
               >
-                {showEmoji ? LANGUAGE_EMOJIS[lang] : (getLabel ? getLabel(lang) : LANGUAGE_NAMES[lang])}
+                {showLabelInIconDropdown ? (
+                  <>
+                    {LANGUAGE_EMOJIS[lang]}
+                    <span>{getLabel ? getLabel(lang) : LANGUAGE_NAMES[lang]}</span>
+                  </>
+                ) : (
+                  showEmoji ? LANGUAGE_EMOJIS[lang] : (getLabel ? getLabel(lang) : LANGUAGE_NAMES[lang])
+                )}
               </button>
             ))}
           </div>

@@ -60,9 +60,9 @@ export default function LanguageSwitcherDemo() {
       >
         <LanguageSwitcher
           variant="select"
-          selectClassName="lang-select"
-          unstyled={false}
+          unstyled={true}
           showEmoji={false}
+          showLabel={true}
         />
       </DemoItem>
 
@@ -137,6 +137,24 @@ export default function LanguageSwitcherDemo() {
           variant="icon-dropdown"
           languages={['en', 'nl']}
           unstyled={false}
+        />
+      </DemoItem>
+
+      <DemoItem
+        title="Icon Dropdown - Limited Languages with Labels"
+        description="Icon dropdown with language names displayed next to flags"
+        code={`<LanguageSwitcher
+  variant="icon-dropdown"
+  languages={['en', 'nl']}
+  unstyled={false}
+  showLabelInIconDropdown={true}
+/>`}
+      >
+        <LanguageSwitcher
+          variant="icon-dropdown"
+          languages={['en', 'nl']}
+          unstyled={false}
+          showLabelInIconDropdown={true}
         />
       </DemoItem>
 
