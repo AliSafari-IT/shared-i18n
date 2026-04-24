@@ -1,4 +1,5 @@
 import { LanguageSwitcher } from '@asafarim/shared-i18n'
+import { CountryLanguageSelector } from '@asafarim/country-language-selector'
 import styles from './LanguageSwitcherDemo.module.css'
 
 interface DemoItemProps {
@@ -30,6 +31,42 @@ function DemoItem({ title, description, code, children }: DemoItemProps) {
 }
 
 export default function LanguageSwitcherDemo() {
+  const countries = [
+    {
+      code: 'BE',
+      name: 'Belgium',
+      nativeName: 'België',
+      flag: '🇧🇪',
+      languages: [
+        { code: 'nl', label: 'Dutch', nativeLabel: 'Nederlands' },
+        { code: 'fr', label: 'French', nativeLabel: 'Français' },
+        { code: 'de', label: 'German', nativeLabel: 'Deutsch' }
+      ]
+    },
+    {
+      code: 'CH',
+      name: 'Switzerland',
+      nativeName: 'Schweiz',
+      flag: '🇨🇭',
+      languages: [
+        { code: 'de', label: 'German', nativeLabel: 'Deutsch' },
+        { code: 'fr', label: 'French', nativeLabel: 'Français' },
+        { code: 'it', label: 'Italian', nativeLabel: 'Italiano' },
+        { code: 'rm', label: 'Romansh', nativeLabel: 'Rumantsch' }
+      ]
+    },
+    {
+      code: 'CA',
+      name: 'Canada',
+      nativeName: 'Canada',
+      flag: '🇨🇦',
+      languages: [
+        { code: 'en', label: 'English' },
+        { code: 'fr', label: 'French', nativeLabel: 'Français' }
+      ]
+    }
+  ]
+
   return (
     <div className={styles.container}>
       <DemoItem
@@ -196,6 +233,23 @@ export default function LanguageSwitcherDemo() {
           unstyled={false}
           languages={['en', 'nl']}
         />
+      </DemoItem>
+
+      <DemoItem
+        title="Country-Language Selector (Header)"
+        description="The header now uses CountryLanguageSelector for Belgium, Switzerland, and Canada with their official languages"
+        code={`<CountryLanguageSelector
+  countries={countries}
+  defaultValue={{ country: 'BE', language: 'nl' }}
+  persistKey="demo-locale"
+  triggerVariant="compact"
+  onChange={(locale) => i18n.changeLanguage(locale.language)}
+/>`}
+      >
+        <div style={{ padding: '1rem', border: '1px solid #ccc', borderRadius: '4px' }}>
+          <p>The country-language selector is now in the header above.</p>
+          <p>Try selecting different countries and languages to see the interface change!</p>
+        </div>
       </DemoItem>
     </div>
   )

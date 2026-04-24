@@ -1,26 +1,66 @@
-import { LanguageSwitcher } from '@asafarim/shared-i18n'
+import { CountryLanguageSelector } from '@asafarim/country-language-selector'
+import { useTranslation } from '@asafarim/shared-i18n'
 import { useState } from 'react'
 
 export default function LanguageBar() {
   const [isDarkTheme, setIsDarkTheme] = useState(false)
+  const { i18n } = useTranslation()
 
   const toggleTheme = () => {
     setIsDarkTheme(!isDarkTheme)
     document.documentElement.setAttribute('data-theme', isDarkTheme ? 'light' : 'dark')
   }
 
+  const handleLocaleChange = (locale: { country: string; language: string }) => {
+    if (i18n?.changeLanguage) {
+      i18n.changeLanguage(locale.language)
+    }
+  }
+
+  const countries = [
+    {
+      code: 'BE',
+      name: 'Belgium',
+      nativeName: 'België',
+      flag: '🇧🇪',
+      languages: [
+        { code: 'nl', label: 'Dutch', nativeLabel: 'Nederlands' },
+        { code: 'fr', label: 'French', nativeLabel: 'Français' },
+        { code: 'de', label: 'German', nativeLabel: 'Deutsch' }
+      ]
+    },
+    {
+      code: 'CH',
+      name: 'Switzerland',
+      nativeName: 'Schweiz',
+      flag: '🇨🇭',
+      languages: [
+        { code: 'de', label: 'German', nativeLabel: 'Deutsch' },
+        { code: 'fr', label: 'French', nativeLabel: 'Français' },
+        { code: 'it', label: 'Italian', nativeLabel: 'Italiano' },
+        { code: 'rm', label: 'Romansh', nativeLabel: 'Rumantsch' }
+      ]
+    },
+    {
+      code: 'CA',
+      name: 'Canada',
+      nativeName: 'Canada',
+      flag: '🇨🇦',
+      languages: [
+        { code: 'en', label: 'English' },
+        { code: 'fr', label: 'French', nativeLabel: 'Français' }
+      ]
+    }
+  ]
+
   return (
     <div className="language-bar">
-      <LanguageSwitcher
-        variant="icon-dropdown"
-        showIcon={true}
-        showLabel={false}
-        showEmoji={true}
-        className="language-switcher"
-        buttonClassName="language-switcher-button"
-        selectClassName="language-switcher-select"
-       // languages={undefined} // Use default languages
-        languages={["en", "nl", "fr"] as const}
+      <CountryLanguageSelector
+        countries={countries}
+        defaultValue={{ country: 'BE', language: 'nl' }}
+        persistKey="demo-locale"
+        triggerVariant="compact"
+        onChange={handleLocaleChange}
       />
       <div className='package-source-actions'>
         <a

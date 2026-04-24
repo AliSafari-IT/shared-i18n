@@ -1,11 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { initI18n } from '@asafarim/shared-i18n'
+import '@asafarim/country-language-selector/styles.css'
 import App from './App'
 import './index.css'
 import enDemo from './locales/en/demo.json'
 import nlDemo from './locales/nl/demo.json'
 import frDemo from './locales/fr/demo.json'
+import itDemo from './locales/it/demo.json'
+import deDemo from './locales/de/demo.json'
 
 initI18n({
   defaultNS: 'common',
@@ -13,7 +16,9 @@ initI18n({
   resources: {
     en: { demo: enDemo },
     nl: { demo: nlDemo },
-    fr: { demo: frDemo }
+    fr: { demo: frDemo },
+    it: { demo: itDemo },
+    de: { demo: deDemo }
   }
 })
 
