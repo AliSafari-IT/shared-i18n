@@ -7,9 +7,10 @@ import StatusCard from './components/StatusCard'
 import OverviewSection from './components/OverviewSection'
 import GetStartedSection from './components/GetStartedSection'
 import LanguageSwitcherDemo from './components/LanguageSwitcherDemo'
+import CountryLanguageDemo from './components/CountryLanguageDemo'
 import Logo from './components/Logo'
 
-type TabType = 'overview' | 'getStarted' | 'demo'
+type TabType = 'overview' | 'getStarted' | 'demo' | 'countryDemo'
 
 
 
@@ -47,6 +48,12 @@ export default function App() {
             onClick={() => setActiveTab('demo')}
           >
             Demo
+          </button>
+          <button
+            className={`nav-tab ${activeTab === 'countryDemo' ? 'active' : ''}`}
+            onClick={() => setActiveTab('countryDemo')}
+          >
+            Country Selector
           </button>
         </div>
 
@@ -91,6 +98,12 @@ export default function App() {
 
             <StatusCard />
           </>
+        )}
+
+        {activeTab === 'countryDemo' && (
+          <Panel title="Country / Language Selector Examples">
+            <CountryLanguageDemo />
+          </Panel>
         )}
       </main>
     </div>
