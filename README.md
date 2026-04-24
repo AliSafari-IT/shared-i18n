@@ -201,7 +201,77 @@ interface LanguageSwitcherProps {
 />
 ```
 
-## API Reference
+## Country / Language Selector Integration
+
+For applications serving multiple countries with different official languages, integrate [@asafarim/country-language-selector](https://www.npmjs.com/package/@asafarim/country-language-selector):
+
+```bash
+pnpm add @asafarim/country-language-selector
+```
+
+### Example: Belgium, Switzerland, Canada
+
+```tsx
+import { CountryLanguageSelector } from '@asafarim/country-language-selector';
+import { useTranslation } from '@asafarim/shared-i18n';
+
+const countries = [
+  {
+    code: 'BE',
+    name: 'Belgium',
+    nativeName: 'België',
+    flag: '🇧🇪',
+    languages: [
+      { code: 'nl', label: 'Dutch', nativeLabel: 'Nederlands' },
+      { code: 'fr', label: 'French', nativeLabel: 'Français' },
+      { code: 'de', label: 'German', nativeLabel: 'Deutsch' }
+    ]
+  },
+  {
+    code: 'CH',
+    name: 'Switzerland',
+    nativeName: 'Schweiz',
+    flag: '🇨🇭',
+    languages: [
+      { code: 'de', label: 'German', nativeLabel: 'Deutsch' },
+      { code: 'fr', label: 'French', nativeLabel: 'Français' },
+      { code: 'it', label: 'Italian', nativeLabel: 'Italiano' }
+    ]
+  },
+  {
+    code: 'CA',
+    name: 'Canada',
+    nativeName: 'Canada',
+    flag: '🇨🇦',
+    languages: [
+      { code: 'en', label: 'English' },
+      { code: 'fr', label: 'French', nativeLabel: 'Français' }
+    ]
+  }
+];
+
+export function CountryLanguageBar() {
+  const { i18n } = useTranslation();
+
+  return (
+    <CountryLanguageSelector
+      countries={countries}
+      defaultValue={{ country: 'BE', language: 'nl' }}
+      persistKey="user-locale"
+      triggerVariant="compact"
+      onChange={(locale) => i18n.changeLanguage(locale.language)}
+    />
+  );
+}
+```
+
+### Integration Notes
+
+- The selector automatically handles country→language relationships
+- Language changes integrate seamlessly with shared-i18n's `useTranslation()` hook
+- Locale persists to localStorage for user preference retention
+- See [full documentation](https://alisafari-it.github.io/country-language-switch/#/get-started) for additional props and customization options
+
 
 ### initI18n(config?: I18nConfig)
 
