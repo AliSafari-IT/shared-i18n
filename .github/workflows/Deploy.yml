@@ -37,7 +37,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build package
-        run: pnpm --filter @asafarim/shared-i18n build
+        run: pnpm run build
 
       - name: Build demo
         run: pnpm --filter shared-i18n-demo build

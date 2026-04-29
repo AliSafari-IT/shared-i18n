@@ -32,7 +32,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build package
-        run: pnpm --filter @asafarim/shared-i18n build
+        run: pnpm run build
 
       - name: Check if version changed
         id: version-check
