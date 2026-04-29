@@ -13,7 +13,7 @@ export default function OverviewSection() {
 
       <div className="overview-grid">
         <div className="feature-card">
-          <div className="feature-icon">✨</div>
+          <div className="feature-icon">🌍</div>
           <h3>{overview.features.title}</h3>
           <ul className="feature-list">
             {overview.features.items.map((item: string, idx: number) => (
@@ -24,6 +24,21 @@ export default function OverviewSection() {
             ))}
           </ul>
         </div>
+
+        {overview.selectors && (
+          <div className="feature-card">
+            <div className="feature-icon">🗺️</div>
+            <h3>{overview.selectors.title}</h3>
+            <ul className="feature-list">
+              {overview.selectors.items.map((item: string, idx: number) => (
+                <li key={idx}>
+                  <span className="feature-dot">→</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className="feature-card">
           <div className="feature-icon">🎯</div>

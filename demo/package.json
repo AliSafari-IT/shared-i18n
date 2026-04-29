@@ -1,14 +1,16 @@
 {
   "name": "shared-i18n-demo",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predev": "kill-port 5173",
+    "postdev": "echo 'Demo running at http://localhost:5173/shared-i18n/'"
   },
   "dependencies": {
-    "@asafarim/country-language-selector": "^0.2.3",
+    "@asafarim/country-language-selector": "^0.4.1",
     "@asafarim/design-tokens": "^0.5.0",
     "@asafarim/shared-i18n": "workspace:*",
     "react": "^19.0.0",
@@ -19,7 +21,8 @@
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.0",
     "typescript": "~5.8.3",
-    "vite": "^6.0.0"
+    "vite": "^6.0.0",
+    "kill-port": "^2.0.1"
   },
   "publishConfig": {
     "access": "public"

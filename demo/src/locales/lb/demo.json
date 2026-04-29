@@ -1,0 +1,201 @@
+{
+  "title": "Shared i18n Demo",
+  "subtitle": "Eng liicht React i18next Wrapper mat Cookie-Persistenz.",
+  "cta": "Sprooch wiesselen",
+  "overview": {
+    "heading": "Iwwersiicht",
+    "description": "@asafarim/shared-i18n schéckt souwuel e LanguageSwitcher (nëmme Sprooch) wéi och e CountryLanguageSelector (Land + Sprooch) aus enger eenzeger Installatioun.",
+    "features": {
+      "title": "LanguageSwitcher",
+      "items": [
+        "Ännert i18n Iwwersetzungssprooch (en, nl, fr, de …)",
+        "Dräi Varianten: Knäppercher, Select Dropdown, Icon-Dropdown",
+        "Cookie-baséiert Persistenz an automatesch Browsererkennung",
+        "Benotzt resolveLocaleFromLanguage Adapter fir URL-sächer Routing",
+        "Bescht fir Apps wou Land / Markt net wichteg ass"
+      ]
+    },
+    "selectors": {
+      "title": "CountryLanguageSelector",
+      "items": [
+        "Droe souwuel Land WÉI Sprooch: { country: 'BE', language: 'en' }",
+        "Kann be-en vun nl-en, lu-en, gb-en ënnerscheeden",
+        "Bild Fändelen (flagcdn.com) oder Emoji Fändelen",
+        "Kompakt, voll, nëmmen-Fändel, an individuell Trigger-Varianten",
+        "Bescht fir lokaléiert URLs wéi /be-en/get-started"
+      ]
+    },
+    "useCases": {
+      "title": "Perfekt Fir",
+      "items": [
+        "Locale-bewosst URL Routing (Benelux, EU, global)",
+        "Enterprise Plattformen mat Land + Sprooch Preferenzen",
+        "Apps déi be-en vun gb-en ënnerscheede mussen",
+        "Identitéits- an Authentifikatiounssystemer mat per-Locale Inhalt",
+        "SaaS Applikatiounen déi international Mäert bedéngen"
+      ]
+    }
+  },
+  "getStarted": {
+    "heading": "Ufangen",
+    "intro": "Alles wat Dir braucht — LanguageSwitcher a CountryLanguageSelector — kënnt aus engem Package.",
+    "steps": [
+      {
+        "title": "1. Installéieren",
+        "description": "Ee Package gëtt Iech souwuel den nëmme-Sprooch Wiesseler wéi och den Land+Sprooch Selektor.",
+        "code": "pnpm add @asafarim/shared-i18n\n# oder: npm i @asafarim/shared-i18n"
+      },
+      {
+        "title": "2. Den Selector Stylesheet importéieren",
+        "description": "Setzt de CountryLanguageSelector CSS an Ärem Entry Point.",
+        "code": "// main.tsx\nimport '@asafarim/shared-i18n/country-language-selector.css';"
+      },
+      {
+        "title": "3. i18n initialiséieren",
+        "description": "Rufft initI18n beim App-Start mat Ären Iwwersetzungsressourcen op.",
+        "code": "import { initI18n } from '@asafarim/shared-i18n';\n\ninitI18n({\n  defaultLanguage: 'en',\n  defaultNS: 'common',\n  ns: ['common', 'app'],\n  resources: {\n    en: { app: enApp },\n    lb: { app: lbApp }\n  }\n});"
+      },
+      {
+        "title": "4. CountryLanguageSelector dobäisetzen",
+        "description": "Importéiert vun @asafarim/shared-i18n — kee separat Package néideg.",
+        "code": "import {\n  CountryLanguageSelector,\n  type Country,\n  type Locale,\n} from '@asafarim/shared-i18n';\n\n<CountryLanguageSelector\n  countries={countries}\n  value={locale}\n  onChange={(locale) => {\n    i18n.changeLanguage(locale.language);\n    navigate(`/${locale.country.toLowerCase()}-${locale.language}/`);\n  }}\n  triggerVariant=\"compact\"\n  flagMode=\"image\"\n/>"
+      },
+      {
+        "title": "5. LanguageSwitcher dobäisetzen",
+        "description": "Fir nëmme-Iwwersetzung Apps. Verdraht duerch resolveLocaleFromLanguage wann Dir och Locale URLs hutt.",
+        "code": "import { LanguageSwitcher } from '@asafarim/shared-i18n';\n\n<LanguageSwitcher\n  variant=\"buttons\"\n  onChanged={(lang) => {\n    // map Sprooch → voll Locale fir URL-sächer Routing:\n    const { locale } = resolveLocaleFromLanguage(currentLocale, lang, countries);\n    navigate(locale);\n  }}\n/>"
+      },
+      {
+        "title": "6. GitHub Pages SPA Fallback (optional)",
+        "description": "Fir statist Hosting op GitHub Pages, setzt eng 404.html Redirect Strategie.",
+        "code": "// public/404.html — leitet Deep Links duerch Query String ëm\n// index.html — decodéiert se zeréck duerch history.replaceState\n// Kuckt den Demo Source fir déi vollstänneg Implementatioun."
+      }
+    ],
+    "tips": {
+      "title": "Pro Tipps",
+      "items": [
+        "Benotzt CountryLanguageSelector wann Är App locale-bewosst URLs huet",
+        "Benotzt LanguageSwitcher + resolveLocaleFromLanguage als liichtgewiichteg Adapter Schicht",
+        "Béid Komponenten sinn kontrolléiert — gitt value={locale} an onChange fir synchron ze bleiwen",
+        "i18next späichert nëmme Sprooch; d'URL späichert Land + Sprooch",
+        "Setzt VITE_IDENTITY_API_URL fir Sprooch-Preferenz Synchronisatioun"
+      ]
+    }
+  },
+  "routingContract": {
+    "heading": "Routing Kontrakt",
+    "description": "D'URL ass d'Quell vun der Wourecht fir souwuel Locale wéi och aktiv Säit.",
+    "items": [
+      "{base} leitet ëm op {target}",
+      "{pattern} steiert d'UI",
+      "CountryLanguageSelector Ännerung → voll Locale Update",
+      "LanguageSwitcher Ännerung → Sprooch opgeléist duerch resolveLocaleFromLanguage",
+      "Ongülteg Slug → {defaultSlug}; ongülteg Säit → {defaultPage}"
+    ]
+  },
+  "languageSwitchers": {
+    "heading": "Sproochwiesseler",
+    "intro": "LanguageSwitcher ass nëmme-Sprooch — et weess net a wéi engem Land de Benotzer ass. All Variante hei ënnen ass duerch resolveLocaleFromLanguage verdraht sodatt d'Auswiel vun enger Sprooch nach ëmmer eng gülteg Locale URL produzéiert.",
+    "distinction": {
+      "title": "Warum LanguageSwitcher CountryLanguageSelector net ersetze kann",
+      "p1": "Déi véier Locale Slugs droen déiselwecht Sprooch (Englesch) mee verschidde Länner. LanguageSwitcher kann se net ënnerscheeden:",
+      "p2": "CountryLanguageSelector dréit souwuel Land wéi Sprooch, also kann et déi véier all duerstellen an ënnerscheeden.",
+      "link": "Kuckt den Country Language Selectors Tab dofir."
+    },
+    "comparison": {
+      "title": "Verglach",
+      "capability": "Fäegkeet",
+      "ls": "LanguageSwitcher",
+      "cls": "CountryLanguageSelector",
+      "yes": "Jo",
+      "no": "Nee",
+      "needsAdapter": "Nee — braucht Adapter",
+      "optional": "Optional",
+      "yesVia": "Jo, via locale.language",
+      "changesLang": "Ännert i18n Sprooch",
+      "knowsCountry": "Kennt Land",
+      "representsBeEn": "Kann be-en duerstellen",
+      "distinguishes": "Kann be-en vun gb-en ënnerscheeden",
+      "bestUrls": "Bescht fir lokaléiert URLs",
+      "bestTransOnly": "Bescht fir nëmme-Iwwersetzung Apps"
+    },
+    "variants": [
+      { "title": "Knäppercher Variante", "desc": "Individuell Knäppercher fir all Sprooch. Feuert onChanged mat engem Sproochcode." },
+      { "title": "Select dropdown — nëmmen Text", "desc": "Native <select> mat Sproochnimm. Keen Emoji." },
+      { "title": "Icon dropdown — all Sproochen", "desc": "Kompakt Fändel-Emoji Dropdown deen all ënnerstëtzt Sprooche weist." },
+      { "title": "Icon dropdown — ageschränkt Sproochen", "desc": "Agegrenzt op nëmme Englesch an Hollännesch. Nëtzlech fir den Demo Lännerumfang ze passen." },
+      { "title": "Icon dropdown — mat Labelen", "desc": "Dasselwecht mee weist Sproochnimm niewent dem Fändel-Emoji." },
+      { "title": "Toggle Knäppchen (2 Sproochen)", "desc": "Wann genee 2 Sproochen giwwer an isToggler=true, renderert een eenzelen Toggle Knäppchen." }
+    ],
+    "note": "Dës Kontroll ännert nëmmen d'Sprooch. D'Demo mapped déi ausgewielt Sprooch zeréck op eng voll Locale duerch resolveLocaleFromLanguage sodatt d'URL gülteg bleift.",
+    "preview": "Virschau",
+    "code": "Code"
+  },
+  "routingLab": {
+    "heading": "Routing Lab",
+    "intro": "Säit-an-Säit Verglach vu wéi LanguageSwitcher a CountryLanguageSelector sech verhalen beim Änneren vun der Locale. D'URL gëtt live aktualiséiert.",
+    "currentLocale": "Aktuell Locale",
+    "slug": "Slug",
+    "urlPath": "URL Pfad",
+    "langOnly": {
+      "title": "Nëmme-Sprooch Aktioun",
+      "desc": "LanguageSwitcher feuert ee Sproochcode of. D'Demo benotzt resolveLocaleFromLanguage fir en op eng gülteg voll Locale ze mappen. Wann d'aktuell Land d'Sprooch net ënnerstëtzt, gëtt eng Fallback Noriicht gewisen.",
+      "resolved": "Opgeléist Locale:"
+    },
+    "countryLang": {
+      "title": "Land-Sprooch Aktioun",
+      "desc": "CountryLanguageSelector feuert direkt ee vollstännegt { country, language } Objet of — keen Adapter néideg. D'URL huet ëmmer dat richteg Land + Sprooch.",
+      "resolved": "Opgeléist Locale:"
+    },
+    "scenarios": {
+      "title": "Skriptéiert Szenarien",
+      "desc": "Klickt op eng Rei fir d'Szenario unzewenden a kuckt wéi d'URL an d'Locale Chip aktualiséiert ginn.",
+      "expected": "Erwartet:"
+    }
+  },
+  "status": {
+    "heading": "Live Status",
+    "cookie": "Cookie",
+    "backend": "Backend",
+    "simulate": "Backend Synchronisatioun simuléieren",
+    "resultOk": "Backend Synchronisatioun gelongen",
+    "resultFail": "Backend Synchronisatioun feelgeschlagen"
+  },
+  "nav": {
+    "overview": "Iwwersiicht",
+    "getStarted": "Ufangen",
+    "languageSwitchers": "Sproochwiesseler",
+    "countrySelectors": "Land Selektoren",
+    "routingLab": "Routing Lab",
+    "tagline": "Benelux + UK Locale Routing Demo"
+  },
+  "footer": {
+    "activeRoute": "Aktiv Route",
+    "builtWith": "Gebaut mat"
+  },
+  "hero": {
+    "getStarted": "Ufangen",
+    "trySelector": "Selector probéieren",
+    "liveRoutePreview": "Live Route Virschau"
+  },
+  "countryLanguageSelectors": {
+    "heading": "Land Sprooch Selektoren",
+    "intro": "CountryLanguageSelector dréit souwuel Land wéi Sprooch, wat et zur richteger Wiel fir locale-bewosst URLs mécht. All Varianten hei ënnen deelen déiselwecht kontrolléiert Locale — dat Änneren vun engem aktualiséiert d'URL an béid Navbar-Selektoren.",
+    "country": "Land",
+    "language": "Sprooch",
+    "slug": "Slug",
+    "url": "URL",
+    "preview": "Virschau",
+    "code": "Code",
+    "variants": [
+      { "title": "Bild Fändelen · kompakten Trigger", "desc": "Benotzt SVG Fändelen vu flagcdn.com — funktionéiert op Windows wou Emoji Fändelen als ISO Codes ugewise ginn." },
+      { "title": "Deaktivéierte Zoustand", "desc": "Den Selector kann während dem Lueden oder wann de Benotzer keng Erlabnes huet fir d'Locale ze änneren, deaktivéiert ginn." },
+      { "title": "Vollstänneg Nimm · Bild Fändelen", "desc": "Weist déi vollstänneg Land- a Sprooch nimm — nëtzlech wann de Plaz net limitéiert ass." },
+      { "title": "Nëmme-Fändel Trigger", "desc": "Nëmme d'Fändel gëtt am Trigger gewisen — ideal fir ganz kompakt Navbars." },
+      { "title": "Individuellen Trigger via renderTrigger", "desc": "Voll Kontroll iwwer den Trigger Knäppchen via d'renderTrigger render prop. Benotzt eng inline Fändel Bild sou datt et op Windows fonctionnéiert." },
+      { "title": "Popover alignéiert op Start", "desc": "Alignéiert d'Dropdown Popover op déi lénk Kante vum Trigger via align='start'." }
+    ],
+    "open": "Opmaachen",
+    "close": "Zoumaachen"
+  }
+}

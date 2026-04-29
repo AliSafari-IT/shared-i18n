@@ -17,6 +17,16 @@
         "SSR-sichere Dienstprogramme für serverseitiges Rendering"
       ]
     },
+    "selectors": {
+      "title": "CountryLanguageSelector",
+      "items": [
+        "Enthält sowohl Land ALS auch Sprache: { country: 'BE', language: 'en' }",
+        "Kann be-en von nl-en, lu-en, gb-en unterscheiden",
+        "Bildflaggen (flagcdn.com) oder Emoji-Flaggen",
+        "Kompakte, vollständige, nur-Flagge und benutzerdefinierte Trigger-Varianten",
+        "Beste für lokalisierte URLs wie /be-en/get-started"
+      ]
+    },
     "useCases": {
       "title": "Perfekt für",
       "items": [
@@ -74,6 +84,77 @@
       ]
     }
   },
+  "routingContract": {
+    "heading": "Routing-Vertrag",
+    "description": "Die URL ist die Quelle der Wahrheit für sowohl Locale als auch aktive Seite.",
+    "items": [
+      "{base} leitet weiter zu {target}",
+      "{pattern} steuert die UI",
+      "CountryLanguageSelector Änderung → vollständige Locale-Aktualisierung",
+      "LanguageSwitcher Änderung → Sprache aufgelöst via resolveLocaleFromLanguage",
+      "Ungültiger Slug → {defaultSlug}; ungültige Seite → {defaultPage}"
+    ]
+  },
+  "languageSwitchers": {
+    "heading": "Sprachwechsler",
+    "intro": "LanguageSwitcher ist sprache-nur — es weiß nicht, in welchem Land sich der Benutzer befindet. Jede Variante unten ist über resolveLocaleFromLanguage verbunden, sodass die Auswahl einer Sprache immer noch eine gültige Locale-URL erzeugt.",
+    "distinction": {
+      "title": "Warum LanguageSwitcher CountryLanguageSelector nicht ersetzen kann",
+      "p1": "Diese vier Locale-Slugs tragen dieselbe Sprache (Englisch) aber unterschiedliche Länder. LanguageSwitcher kann sie nicht unterscheiden:",
+      "p2": "CountryLanguageSelector trägt sowohl Land als auch Sprache, sodass es alle vier darstellen und unterscheiden kann.",
+      "link": "Siehe den Country Language Selectors Tab dafür."
+    },
+    "comparison": {
+      "title": "Vergleich",
+      "capability": "Fähigkeit",
+      "ls": "LanguageSwitcher",
+      "cls": "CountryLanguageSelector",
+      "yes": "Ja",
+      "no": "Nein",
+      "needsAdapter": "Nein — braucht Adapter",
+      "optional": "Optional",
+      "yesVia": "Ja, via locale.language",
+      "changesLang": "Ändert i18n Sprache",
+      "knowsCountry": "Kennt Land",
+      "representsBeEn": "Kann be-en darstellen",
+      "distinguishes": "Kann be-en von gb-en unterscheiden",
+      "bestUrls": "Beste für lokalisierte URLs",
+      "bestTransOnly": "Beste für übersetzung-nur Apps"
+    },
+    "variants": [
+      { "title": "Knopf-Variante", "desc": "Einzelne Knöpfe für jede Sprache. Feuert onChanged mit einem Sprachcode." },
+      { "title": "Select dropdown — nur Text", "desc": "Native <select> mit Sprachnamen. Kein Emoji." },
+      { "title": "Icon dropdown — alle Sprachen", "desc": "Kompakte Flagge-Emoji Dropdown zeigt alle unterstützten Sprachen." },
+      { "title": "Icon dropdown — eingeschränkte Sprachen", "desc": "Eingeschränkt auf nur Englisch und Niederländisch. Nützlich um den Demo-Länderumfang zu matchen." },
+      { "title": "Icon dropdown — mit Labels", "desc": "Gleich wie oben aber zeigt Sprachnamen neben dem Flagge-Emoji." },
+      { "title": "Toggle-Knopf (2 Sprachen)", "desc": "Wenn genau 2 Sprachen angegeben und isToggler=true, rendert einen einzelnen Toggle-Knopf." }
+    ],
+    "note": "Diese Steuerung ändert nur die Sprache. Die Demo mapped die ausgewählte Sprache zurück zu einer vollständigen Locale via resolveLocaleFromLanguage, sodass die URL gültig bleibt.",
+    "preview": "Vorschau",
+    "code": "Code"
+  },
+  "routingLab": {
+    "heading": "Routing-Labor",
+    "intro": "Vergleich nebeneinander wie sich LanguageSwitcher und CountryLanguageSelector beim Ändern der Locale verhalten. Die URL wird live aktualisiert.",
+    "currentLocale": "Aktuelle Locale",
+    "slug": "Slug",
+    "urlPath": "URL-Pfad",
+    "langOnly": {
+      "title": "Sprache-nur Aktion",
+      "desc": "LanguageSwitcher feuert einen Sprachcode ab. Die Demo nutzt resolveLocaleFromLanguage, um ihn auf eine gültige vollständige Locale zu mappen. Wenn das aktuelle Land die Sprache nicht unterstützt, wird ein Fallback-Hinweis angezeigt.",
+      "resolved": "Aufgelöste Locale:"
+    },
+    "countryLang": {
+      "title": "Land-Sprache Aktion",
+      "desc": "CountryLanguageSelector feuert direkt ein vollständiges { country, language } Objekt ab — kein Adapter nötig. Die URL hat immer das richtige Land + Sprache.",
+      "resolved": "Aufgelöste Locale:"
+    },
+    "scenarios": {
+      "title": "Skriptierte Szenarien",
+      "desc": "Klicken Sie auf eine Zeile, um das Szenario anzuwenden und beobachten Sie die Aktualisierung der URL und des Locale-Chips.",
+      "expected": "Erwartet:"
+    }
+  },
   "status": {
     "heading": "Live-Status",
     "cookie": "Cookie",
@@ -81,5 +162,42 @@
     "simulate": "Backend-Synchronisation simulieren",
     "resultOk": "Backend-Synchronisation erfolgreich",
     "resultFail": "Backend-Synchronisation fehlgeschlagen"
+  },
+  "nav": {
+    "overview": "Übersicht",
+    "getStarted": "Erste Schritte",
+    "languageSwitchers": "Sprachwechsler",
+    "countrySelectors": "Land Selektoren",
+    "routingLab": "Routing-Labor",
+    "tagline": "Benelux + UK Locale Routing Demo"
+  },
+  "footer": {
+    "activeRoute": "Aktive Route",
+    "builtWith": "Gebaut mit"
+  },
+  "hero": {
+    "getStarted": "Erste Schritte",
+    "trySelector": "Selektor ausprobieren",
+    "liveRoutePreview": "Live Route Vorschau"
+  },
+  "countryLanguageSelectors": {
+    "heading": "Land Sprach Selektoren",
+    "intro": "CountryLanguageSelector trägt sowohl Land als auch Sprache, was es zur richtigen Wahl für lokalisierte URLs macht. Alle Varianten unten teilen dieselbe kontrollierte Locale — das Ändern einer aktualisiert die URL und beide Navbar-Selektoren.",
+    "country": "Land",
+    "language": "Sprache",
+    "slug": "Slug",
+    "url": "URL",
+    "preview": "Vorschau",
+    "code": "Code",
+    "variants": [
+      { "title": "Bildflaggen · kompakter Trigger", "desc": "Verwendet SVG-Flaggen von flagcdn.com — funktioniert auf Windows, wo Emoji-Flaggen als ISO-Codes angezeigt werden." },
+      { "title": "Deaktivierter Zustand", "desc": "Der Selektor kann während des Ladens oder wenn der Benutzer keine Berechtigung zum Ändern der Locale hat, deaktiviert werden." },
+      { "title": "Vollständige Namen · Bildflaggen", "desc": "Zeigt die vollständigen Landes- und Sprachnamen an — nützlich, wenn der Platz nicht begrenzt ist." },
+      { "title": "Nur-Flagge Trigger", "desc": "Nur die Flagge wird im Trigger angezeigt — ideal für sehr kompakte Navbars." },
+      { "title": "Benutzerdefinierter Trigger via renderTrigger", "desc": "Volle Kontrolle über den Trigger-Button via renderTrigger render prop. Verwendet ein Inline-Flaggen-Bild, damit es auf Windows funktioniert." },
+      { "title": "Popover am Anfang ausgerichtet", "desc": "Richten Sie die Dropdown-Popover am linken Rand des Triggers via align='start' aus." }
+    ],
+    "open": "Öffnen",
+    "close": "Schließen"
   }
 }

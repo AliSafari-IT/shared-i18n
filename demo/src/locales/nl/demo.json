@@ -17,6 +17,16 @@
         "SSR-veilige hulpprogramma's voor server-side rendering"
       ]
     },
+    "selectors": {
+      "title": "CountryLanguageSelector",
+      "items": [
+        "Bevat zowel land ALS taal: { country: 'BE', language: 'en' }",
+        "Kan be-en onderscheiden van nl-en, lu-en, gb-en",
+        "Afbeeldingvlaggen (flagcdn.com) of emoji-vlaggen",
+        "Compacte, volledige, alleen-vlag en aangepaste trigger-varianten",
+        "Beste voor gelocaliseerde URLs zoals /be-en/get-started"
+      ]
+    },
     "useCases": {
       "title": "Ideaal Voor",
       "items": [
@@ -74,6 +84,77 @@
       ]
     }
   },
+  "routingContract": {
+    "heading": "Routing contract",
+    "description": "De URL is de bron van waarheid voor zowel locale als actieve pagina.",
+    "items": [
+      "{base} redirect naar {target}",
+      "{pattern} stuurt de UI aan",
+      "CountryLanguageSelector wijziging → volledige locale update",
+      "LanguageSwitcher wijziging → taal opgelost via resolveLocaleFromLanguage",
+      "Ongeldige slug → {defaultSlug}; ongeldige pagina → {defaultPage}"
+    ]
+  },
+  "languageSwitchers": {
+    "heading": "Taalwisselaars",
+    "intro": "LanguageSwitcher is alleen-taal — het weet niet in welk land de gebruiker zich bevindt. Elke variant hieronder is aangesloten via resolveLocaleFromLanguage zodat het selecteren van een taal nog steeds een geldige locale-URL oplevert.",
+    "distinction": {
+      "title": "Waarom LanguageSwitcher CountryLanguageSelector niet kan vervangen",
+      "p1": "Al deze vier locale-slugs dragen dezelfde taal (Engels) maar verschillende landen. LanguageSwitcher kan ze niet onderscheiden:",
+      "p2": "CountryLanguageSelector draagt zowel land als taal, dus het kan alle vier vertegenwoordigen en onderscheiden.",
+      "link": "Zie het Country Language Selectors tabblad daarvoor."
+    },
+    "comparison": {
+      "title": "Vergelijking",
+      "capability": "Mogelijkheid",
+      "ls": "LanguageSwitcher",
+      "cls": "CountryLanguageSelector",
+      "yes": "Ja",
+      "no": "Nee",
+      "needsAdapter": "Nee — heeft adapter nodig",
+      "optional": "Optioneel",
+      "yesVia": "Ja, via locale.language",
+      "changesLang": "Wijzigt i18n taal",
+      "knowsCountry": "Kent land",
+      "representsBeEn": "Kan be-en vertegenwoordigen",
+      "distinguishes": "Kan be-en van gb-en onderscheiden",
+      "bestUrls": "Beste voor gelocaliseerde URLs",
+      "bestTransOnly": "Beste voor alleen-vertaling apps"
+    },
+    "variants": [
+      { "title": "Knoppen variant", "desc": "Individuele knoppen voor elke taal. Vuurt onChanged met een taalcode." },
+      { "title": "Select dropdown — alleen tekst", "desc": "Native <select> met taalnamen. Geen emoji." },
+      { "title": "Icon dropdown — alle talen", "desc": "Compacte vlag-emoji dropdown met alle ondersteunde talen." },
+      { "title": "Icon dropdown — beperkte talen", "desc": "Beperkt tot alleen Engels en Nederlands. Handig om de demo-landscope te matchen." },
+      { "title": "Icon dropdown — met labels", "desc": "Zelfde als boven maar toont taalnamen naast de vlag-emoji." },
+      { "title": "Toggle knop (2 talen)", "desc": "Wanneer exact 2 talen worden meegegeven en isToggler=true, rendert een enkele toggle knop." }
+    ],
+    "note": "Deze regelaar wijzigt alleen taal. De demo mapped de geselecteerde taal terug naar een volledige locale via resolveLocaleFromLanguage zodat de URL geldig blijft.",
+    "preview": "Voorbeeld",
+    "code": "Code"
+  },
+  "routingLab": {
+    "heading": "Routing Lab",
+    "intro": "Vergelijking naast elkaar van hoe LanguageSwitcher en CountryLanguageSelector zich gedragen bij het wijzigen van locale. De URL wordt live bijgewerkt.",
+    "currentLocale": "Huidige locale",
+    "slug": "Slug",
+    "urlPath": "URL pad",
+    "langOnly": {
+      "title": "Alleen-taal actie",
+      "desc": "LanguageSwitcher vuurt een taalcode af. De demo gebruikt resolveLocaleFromLanguage om deze te mappen naar een geldige volledige locale. Als het huidige land de taal niet ondersteunt, wordt een fallback melding getoond.",
+      "resolved": "Opgeloste locale:"
+    },
+    "countryLang": {
+      "title": "Land-taal actie",
+      "desc": "CountryLanguageSelector vuurt direct een volledig { country, language } object af — geen adapter nodig. De URL heeft altijd het juiste land + taal.",
+      "resolved": "Opgeloste locale:"
+    },
+    "scenarios": {
+      "title": "Gescripte scenario's",
+      "desc": "Klik op een rij om het scenario toe te passen en zie hoe de URL en locale chip worden bijgewerkt.",
+      "expected": "Verwacht:"
+    }
+  },
   "status": {
     "heading": "Live status",
     "cookie": "Cookie",
@@ -81,5 +162,42 @@
     "simulate": "Backend synchronisatie simuleren",
     "resultOk": "Backend synchronisatie geslaagd",
     "resultFail": "Backend synchronisatie mislukt"
+  },
+  "nav": {
+    "overview": "Overzicht",
+    "getStarted": "Aan de slag",
+    "languageSwitchers": "Taalwisselaars",
+    "countrySelectors": "Land Selectors",
+    "routingLab": "Routing Lab",
+    "tagline": "Benelux + UK locale routing demo"
+  },
+  "footer": {
+    "activeRoute": "Actieve route",
+    "builtWith": "Gebouwd met"
+  },
+  "hero": {
+    "getStarted": "Aan de slag",
+    "trySelector": "Probeer de selector",
+    "liveRoutePreview": "Live route voorbeeld"
+  },
+  "countryLanguageSelectors": {
+    "heading": "Land Taal Selectors",
+    "intro": "CountryLanguageSelector draagt zowel land als taal, waardoor het de juiste keuze is voor locale-bewuste URLs. Alle varianten hieronder delen dezelfde gecontroleerde locale — het wijzigen van één update de URL en beide navbar selectors.",
+    "country": "Land",
+    "language": "Taal",
+    "slug": "Slug",
+    "url": "URL",
+    "preview": "Voorbeeld",
+    "code": "Code",
+    "variants": [
+      { "title": "Afbeelding vlaggen · compacte trigger", "desc": "Gebruikt SVG vlaggen van flagcdn.com — werkt op Windows waar emoji vlaggen als ISO codes worden weergegeven." },
+      { "title": "Uitgeschakelde staat", "desc": "De selector kan worden uitgeschakeld tijdens het laden of wanneer de gebruiker geen toestemming heeft om de locale te wijzigen." },
+      { "title": "Volledige namen · afbeelding vlaggen", "desc": "Toont de volledige land- en taalnamen — handig wanneer ruimte niet beperkt is." },
+      { "title": "Alleen-vlag trigger", "desc": "Alleen de vlag wordt in de trigger getoond — ideaal voor zeer compacte navbars." },
+      { "title": "Aangepaste trigger via renderTrigger", "desc": "Volledige controle over de trigger knop via de renderTrigger render prop. Gebruikt een inline vlag afbeelding zodat het op Windows werkt." },
+      { "title": "Popover uitgelijnd naar start", "desc": "Lijn de dropdown popover uit met de linkerrand van de trigger via align='start'." }
+    ],
+    "open": "Openen",
+    "close": "Sluiten"
   }
 }

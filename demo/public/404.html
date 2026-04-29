@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Shared i18n demo</title>
+    <script>
+      // SPA GitHub Pages fallback (rafgraph/spa-github-pages).
+      // Single-page apps for GitHub Pages — MIT license.
+      // Rewrites a deep URL into a single query string and redirects to the
+      // SPA index, which decodes it back into history.
+      var pathSegmentsToKeep = 1; // keep the `/shared-i18n` base path
+
+      var l = window.location;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    </script>
+  </head>
+  <body></body>
+</html>

@@ -4,74 +4,153 @@
   "cta": "Switch language",
   "overview": {
     "heading": "Overview",
-    "description": "@asafarim/shared-i18n is a production-grade internationalization (i18n) package for React applications.",
+    "description": "@asafarim/shared-i18n ships both a LanguageSwitcher (language-only) and CountryLanguageSelector (country + language) from a single install.",
     "features": {
-      "title": "Key Features",
+      "title": "LanguageSwitcher",
       "items": [
-        "Multi-language support with cookie persistence",
-        "Built-in language detection and fallback",
-        "TypeScript support with full type safety",
-        "Pre-configured with common and identity-portal namespaces",
-        "Seamless integration with react-i18next",
-        "Backend language preference synchronization",
-        "SSR-safe utilities for server-side rendering"
+        "Changes i18n translation language (en, nl, fr, de …)",
+        "Three variants: buttons, select dropdown, icon-dropdown",
+        "Cookie-based persistence and automatic browser detection",
+        "Use resolveLocaleFromLanguage adapter for URL-safe routing",
+        "Best for apps where country / market does not matter"
+      ]
+    },
+    "selectors": {
+      "title": "CountryLanguageSelector",
+      "items": [
+        "Carries both country AND language: { country: 'BE', language: 'en' }",
+        "Can distinguish be-en from nl-en, lu-en, gb-en",
+        "Image flags (flagcdn.com) or emoji flags",
+        "Compact, full, flag-only, and custom trigger variants",
+        "Best for localized URLs like /be-en/get-started"
       ]
     },
     "useCases": {
       "title": "Perfect For",
       "items": [
-        "Global applications requiring multi-language support",
-        "Enterprise platforms with user language preferences",
-        "Identity and authentication systems",
-        "Content management systems with localization",
-        "SaaS applications serving international users"
+        "Locale-aware URL routing (Benelux, EU, global)",
+        "Enterprise platforms with country + language preferences",
+        "Apps that need to distinguish be-en from gb-en",
+        "Identity and authentication systems with per-locale content",
+        "SaaS applications serving international markets"
       ]
     }
   },
   "getStarted": {
     "heading": "Get Started",
-    "intro": "Learn how to integrate @asafarim/shared-i18n into your React application in minutes.",
+    "intro": "Everything you need — LanguageSwitcher and CountryLanguageSelector — comes from one package.",
     "steps": [
       {
-        "title": "1. Install the Package",
-        "description": "Add the package to your project dependencies.",
-        "code": "pnpm add @asafarim/shared-i18n"
+        "title": "1. Install",
+        "description": "One package gives you both the language-only switcher and the country+language selector.",
+        "code": "pnpm add @asafarim/shared-i18n\n# or: npm i @asafarim/shared-i18n"
       },
       {
-        "title": "2. Initialize i18n in Your App",
-        "description": "Call initI18n at application startup to configure language settings.",
-        "code": "import { initI18n } from '@asafarim/shared-i18n';\n\ninitI18n({\n  defaultNS: 'common',\n  ns: ['common', 'identityPortal'],\n  resources: { /* your translations */ }\n});"
+        "title": "2. Import the selector stylesheet",
+        "description": "Add the CountryLanguageSelector CSS once in your entry point.",
+        "code": "// main.tsx\nimport '@asafarim/shared-i18n/country-language-selector.css';"
       },
       {
-        "title": "3. Use the useLanguage Hook",
-        "description": "Access language switching and current language state in your components.",
-        "code": "const { changeLanguage, isChanging } = useLanguage();\n\n<button onClick={() => changeLanguage('nl')}>\n  Switch to Dutch\n</button>"
+        "title": "3. Initialize i18n",
+        "description": "Call initI18n at application startup with your translation resources.",
+        "code": "import { initI18n } from '@asafarim/shared-i18n';\n\ninitI18n({\n  defaultLanguage: 'en',\n  defaultNS: 'common',\n  ns: ['common', 'app'],\n  resources: {\n    en: { app: enApp },\n    nl: { app: nlApp }\n  }\n});"
       },
       {
-        "title": "4. Translate with useTranslation",
-        "description": "Use the useTranslation hook to access translated strings.",
-        "code": "const { t } = useTranslation('common');\n\n<h1>{t('welcome')}</h1>"
+        "title": "4. Add CountryLanguageSelector",
+        "description": "Import from @asafarim/shared-i18n — no separate package required.",
+        "code": "import {\n  CountryLanguageSelector,\n  type Country,\n  type Locale,\n} from '@asafarim/shared-i18n';\n\n<CountryLanguageSelector\n  countries={countries}\n  value={locale}\n  onChange={(locale) => {\n    i18n.changeLanguage(locale.language);\n    navigate(`/${locale.country.toLowerCase()}-${locale.language}/`);\n  }}\n  triggerVariant=\"compact\"\n  flagMode=\"image\"\n/>"
       },
       {
-        "title": "5. Leverage Cookie Persistence",
-        "description": "User language preferences are automatically saved and restored.",
-        "code": "// Automatically persisted via cookies\n// No additional setup required!"
+        "title": "5. Add LanguageSwitcher",
+        "description": "For translation-only apps. Wire through resolveLocaleFromLanguage when you also have locale URLs.",
+        "code": "import { LanguageSwitcher } from '@asafarim/shared-i18n';\n\n<LanguageSwitcher\n  variant=\"buttons\"\n  onChanged={(lang) => {\n    // map language → full locale for URL-safe routing:\n    const { locale } = resolveLocaleFromLanguage(currentLocale, lang, countries);\n    navigate(locale);\n  }}\n/>"
       },
       {
-        "title": "6. Sync with Backend (Optional)",
-        "description": "Update user language preferences on your backend.",
-        "code": "import { updateUserLanguagePreference } from '@asafarim/shared-i18n';\n\nawait updateUserLanguagePreference('en');"
+        "title": "6. GitHub Pages SPA fallback (optional)",
+        "description": "For static hosting on GitHub Pages, add a 404.html redirect strategy.",
+        "code": "// public/404.html — redirects deep links via query string\n// index.html — decodes them back via history.replaceState\n// See the demo source for the full implementation."
       }
     ],
     "tips": {
       "title": "Pro Tips",
       "items": [
-        "Use namespaces to organize translations by feature",
-        "Leverage the Trans component for complex translations with variables",
-        "Set VITE_IDENTITY_API_URL for backend synchronization",
-        "Check browser language detection with getInitialLanguage()",
-        "Combine with design tokens for consistent theming across languages"
+        "Use CountryLanguageSelector when your app has locale-aware URLs",
+        "Use LanguageSwitcher + resolveLocaleFromLanguage as a lightweight adapter layer",
+        "Both components are controlled — pass value={locale} and onChange to stay in sync",
+        "i18next stores language-only; the URL stores country + language",
+        "Set VITE_IDENTITY_API_URL for backend language-preference synchronization"
       ]
+    }
+  },
+  "routingContract": {
+    "heading": "Routing contract",
+    "description": "The URL is the source of truth for both locale and active page.",
+    "items": [
+      "{base} redirects to {target}",
+      "{pattern} drives the UI",
+      "CountryLanguageSelector change → full locale update",
+      "LanguageSwitcher change → language resolved via resolveLocaleFromLanguage",
+      "Invalid slug → {defaultSlug}; invalid page → {defaultPage}"
+    ]
+  },
+  "languageSwitchers": {
+    "heading": "Language Switchers",
+    "intro": "LanguageSwitcher is language-only — it does not know which country the user is in. Each variant below is wired through resolveLocaleFromLanguage so selecting a language still produces a valid locale URL.",
+    "distinction": {
+      "title": "Why LanguageSwitcher cannot replace CountryLanguageSelector",
+      "p1": "All four of these locale slugs carry the same language (English) but different countries. LanguageSwitcher cannot distinguish them:",
+      "p2": "CountryLanguageSelector carries both country and language, so it can represent and distinguish all four.",
+      "link": "See the Country Language Selectors tab for that."
+    },
+    "comparison": {
+      "title": "Comparison",
+      "capability": "Capability",
+      "ls": "LanguageSwitcher",
+      "cls": "CountryLanguageSelector",
+      "yes": "Yes",
+      "no": "No",
+      "needsAdapter": "No — needs adapter",
+      "optional": "Optional",
+      "yesVia": "Yes, via locale.language",
+      "changesLang": "Changes i18n language",
+      "knowsCountry": "Knows country",
+      "representsBeEn": "Can represent be-en",
+      "distinguishes": "Can distinguish be-en from gb-en",
+      "bestUrls": "Best for localized URLs",
+      "bestTransOnly": "Best for translation-only apps"
+    },
+    "variants": [
+      { "title": "Buttons variant", "desc": "Individual buttons for each language. Fires onChanged with a language code." },
+      { "title": "Select dropdown — text only", "desc": "Native <select> with language names. No emoji." },
+      { "title": "Icon dropdown — all languages", "desc": "Compact flag-emoji dropdown showing all supported languages." },
+      { "title": "Icon dropdown — limited languages", "desc": "Restricted to English and Dutch only. Useful to match the demo country scope." },
+      { "title": "Icon dropdown — with labels", "desc": "Same as above but shows language names alongside the flag emoji." },
+      { "title": "Toggle button (2 languages)", "desc": "When exactly 2 languages are provided and isToggler=true, renders a single toggle button." }
+    ],
+    "note": "This control changes language only. The demo maps the selected language back to a full locale via resolveLocaleFromLanguage so the URL stays valid.",
+    "preview": "Preview",
+    "code": "Code"
+  },
+  "routingLab": {
+    "heading": "Routing Lab",
+    "intro": "Side-by-side comparison of how LanguageSwitcher and CountryLanguageSelector behave when changing locale. The URL updates live.",
+    "currentLocale": "Current locale",
+    "slug": "Slug",
+    "urlPath": "URL path",
+    "langOnly": {
+      "title": "Language-only action",
+      "desc": "LanguageSwitcher fires a language code. The demo uses resolveLocaleFromLanguage to map it to a valid full locale. If the current country does not support the language, a fallback notice is shown.",
+      "resolved": "Resolved locale:"
+    },
+    "countryLang": {
+      "title": "Country-language action",
+      "desc": "CountryLanguageSelector fires a full { country, language } object directly — no adapter needed. The URL always has the right country + language.",
+      "resolved": "Resolved locale:"
+    },
+    "scenarios": {
+      "title": "Scripted scenarios",
+      "desc": "Click a row to apply the scenario and watch the URL and locale chip update.",
+      "expected": "Expected:"
     }
   },
   "status": {
@@ -81,5 +160,42 @@
     "simulate": "Simulate backend sync",
     "resultOk": "Backend sync succeeded",
     "resultFail": "Backend sync failed"
+  },
+  "nav": {
+    "overview": "Overview",
+    "getStarted": "Get Started",
+    "languageSwitchers": "Language Switchers",
+    "countrySelectors": "Country Selectors",
+    "routingLab": "Routing Lab",
+    "tagline": "Benelux + UK locale routing demo"
+  },
+  "footer": {
+    "activeRoute": "Active route",
+    "builtWith": "Built with"
+  },
+  "hero": {
+    "getStarted": "Get started",
+    "trySelector": "Try the selector",
+    "liveRoutePreview": "Live route preview"
+  },
+  "countryLanguageSelectors": {
+    "heading": "Country Language Selectors",
+    "intro": "CountryLanguageSelector carries both country and language, making it the right choice for locale-aware URLs. All variants below share the same controlled locale — changing any one updates the URL and both navbar selectors.",
+    "country": "Country",
+    "language": "Language",
+    "slug": "Slug",
+    "url": "URL",
+    "preview": "Preview",
+    "code": "Code",
+    "variants": [
+      { "title": "Image flags · compact trigger", "desc": "Uses SVG flags from flagcdn.com — works on Windows where emoji flags render as ISO codes." },
+      { "title": "Disabled state", "desc": "The selector can be disabled while loading or when the user lacks permission to change locale." },
+      { "title": "Full names · image flags", "desc": "Shows the full country and language names — useful when space is not constrained." },
+      { "title": "Flag-only trigger", "desc": "Only the flag is shown in the trigger — ideal for very tight navbars." },
+      { "title": "Custom trigger via renderTrigger", "desc": "Full control over the trigger button via the renderTrigger render prop. Uses an inline flag image so it works on Windows." },
+      { "title": "Popover aligned to start", "desc": "Align the dropdown popover to the left edge of the trigger via align='start'." }
+    ],
+    "open": "Open",
+    "close": "Close"
   }
 }

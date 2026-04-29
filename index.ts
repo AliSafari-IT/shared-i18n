@@ -23,3 +23,24 @@ export type { LanguageSwitcherProps } from './components/LanguageSwitcher.js';
 
 // Re-export react-i18next for convenience
 export { useTranslation, Trans, Translation } from 'react-i18next';
+
+// CountryLanguageSelector — re-exported so consumers only install @asafarim/shared-i18n
+export {
+  CountryLanguageSelector,
+  defaultCountries,
+  useCountryLanguage,
+  filterCountries,
+} from '@asafarim/country-language-selector';
+
+export type {
+  Country,
+  Locale,
+  Language,
+  CountryCode,
+  LanguageCode,
+  CountryLanguageSelectorProps,
+  LocaleChangeHandler,
+  LocaleChangeMeta,
+  RenderTriggerContext,
+  SelectorStrings,
+} from '@asafarim/country-language-selector';

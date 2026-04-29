@@ -1,47 +1,44 @@
 # @asafarim/shared-i18n
 
-Lightweight, simple translation module for any React + TypeScript app, built on top of i18next and react-i18next. It ships with sensible defaults (English and Dutch) but can support any language by adding JSON files to your locales folder.
+Lightweight React + TypeScript i18n package built on top of i18next and react-i18next. Ships with sensible defaults (English and Dutch) but supports any language. Includes a **LanguageSwitcher** and, new in v0.9, re-exports the full **CountryLanguageSelector** from `@asafarim/country-language-selector` — so consumers install only one package.
 
-* see Demo at: [https://alisafari-it.github.io/shared-i18n/](https://alisafari-it.github.io/shared-i18n/)
+* Live demo: [https://alisafari-it.github.io/shared-i18n/](https://alisafari-it.github.io/shared-i18n/)
 
 ## Features
 
 - 🌍 Works in any React + TypeScript project (monorepo or standalone)
 - 🗂️ JSON-based translations per language and namespace
-- 🔄 Cookie-based language persistence (browser) with automatic detection
+- 🔄 Cookie-based language persistence with automatic browser detection
 - ⚙️ Optional backend sync for user language preferences
 - ⚡ Lazy loading support for app-specific translations
-- 🪝 React hooks for language management (useLanguage) and translations (useTranslation)
-- 🎨 Built-in LanguageSwitcher component with multiple variants (buttons, select, icon-dropdown)
+- 🪝 React hooks: `useLanguage`, `useTranslation`
+- 🎨 **LanguageSwitcher** — three variants: buttons, select, icon-dropdown
+- 🗺️ **CountryLanguageSelector** — re-exported, image or emoji flags, locale-aware URLs
 - 🚀 Configurable API URL resolution for flexible backend integration
 
 ## Installation
 
 ```bash
 pnpm add @asafarim/shared-i18n
-# or
-npm i @asafarim/shared-i18n
-# or
-yarn add @asafarim/shared-i18n
+# or: npm i @asafarim/shared-i18n
 ```
 
-## Usage
+That is the only package you need. `@asafarim/country-language-selector` is a bundled dependency and re-exported for you.
 
-### 1) Initialize i18n in your app
+## Quick Start
 
-In your app's main entry point (e.g., `main.tsx`):
+### 1. Initialize i18n
 
 ```tsx
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+// main.tsx
 import { initI18n } from '@asafarim/shared-i18n';
-import App from './App';
+import '@asafarim/shared-i18n/country-language-selector.css'; // if using CountryLanguageSelector
 
-// Optional: import your app-specific translations
 import enApp from './locales/en/app.json';
 import nlApp from './locales/nl/app.json';
 
 initI18n({
+  defaultLanguage: 'en',
   defaultNS: 'common',
   ns: ['common', 'app'],
   resources: {
@@ -49,301 +46,220 @@ initI18n({
     nl: { app: nlApp }
   }
 });
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-);
 ```
 
-### 2) Use translations in components
+### 2. Translate in components
 
 ```tsx
 import { useTranslation } from '@asafarim/shared-i18n';
 
 function MyComponent() {
-  const { t } = useTranslation();
-  return (
-    <div>
-      <h1>{t('welcome')}</h1>
-      <p>{t('app:customKey')}</p>
-    </div>
-  );
+  const { t } = useTranslation('app');
+  return <h1>{t('welcome')}</h1>;
 }
 ```
 
-### 3) Add a language switcher
+---
 
-Use the built-in LanguageSwitcher component with multiple variants:
+## LanguageSwitcher
+
+Language-only switcher with cookie persistence.
 
 ```tsx
-import { LanguageSwitcher } from '@asafarim/shared-i18n/components';
+import { LanguageSwitcher } from '@asafarim/shared-i18n';
 
-// Buttons variant (default)
+// Buttons
 <LanguageSwitcher variant="buttons" />
 
-// Select dropdown
-<LanguageSwitcher variant="select" />
+// Select dropdown (no emoji)
+<LanguageSwitcher variant="select" showEmoji={false} />
 
-// Icon-only dropdown with flag emojis
+// Icon dropdown with flag emoji
 <LanguageSwitcher variant="icon-dropdown" />
 
-// Custom languages subset
-<LanguageSwitcher variant="buttons" languages={['en', 'nl']} />
+// Toggle between exactly 2 languages
+<LanguageSwitcher variant="select" languages={['en', 'nl']} isToggler={true} />
 ```
-
-Or use the hook directly:
-
-```tsx
-import { useLanguage } from '@asafarim/shared-i18n';
-
-export function LanguageToggle() {
-  const { language, changeLanguage, isChanging } = useLanguage();
-  return (
-    <button onClick={() => changeLanguage(language === 'en' ? 'nl' : 'en')} disabled={isChanging}>
-      Switch language (current: {language})
-    </button>
-  );
-}
-```
-
-## Add more languages
-
-Yes — you can support any language by adding the required JSON files to your locales folder. For example:
-
-```
-your-app/
-  src/
-    locales/
-      en/
-        app.json
-      nl/
-        app.json
-      anotherLang/
-        new.json
-```
-
-Then include them when initializing:
-
-```tsx
-import anotherLang from './locales/anotherLang/new.json';
-
-initI18n({
-  ns: ['common', 'app', 'new'],
-  resources: {
-    anotherLang: { new: anotherLang }
-  },
-  supportedLngs: ['en', 'nl', 'anotherLang'],
-  defaultLanguage: 'en'
-});
-```
-
-Notes:
-
-- If you pass supportedLngs, it will override the default supported languages.
-- defaultLanguage overrides the default fallback (which is English).
-
-## LanguageSwitcher Component
-
-The LanguageSwitcher component provides multiple UI variants for language selection with built-in styling using ASafariM design tokens.
 
 ### Props
 
-```tsx
-interface LanguageSwitcherProps {
-  className?: string;
-  style?: React.CSSProperties;
-  languages?: readonly SupportedLanguage[];
-  variant?: "buttons" | "select" | "icon-dropdown";
-  disabled?: boolean;
-  getLabel?: (lang: SupportedLanguage) => string;
-  getIcon?: (lang: SupportedLanguage) => React.ReactNode;
-  onChanged?: (lang: SupportedLanguage) => void;
-  buttonClassName?: string;
-  selectClassName?: string;
-  showLabel?: boolean;
-  showIcon?: boolean;
-  showEmoji?: boolean;
-  unstyled?: boolean;
-  isToggler?: boolean;
-}
-```
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"buttons" \| "select" \| "icon-dropdown"` | `"buttons"` | UI variant |
+| `languages` | `SupportedLanguage[]` | all supported | Subset of languages to show |
+| `showEmoji` | `boolean` | `true` | Show flag emoji in select/icon variants |
+| `showLabel` | `boolean` | `true` | Show language name label |
+| `isToggler` | `boolean` | `true` | Renders as toggle when exactly 2 languages given |
+| `onChanged` | `(lang: SupportedLanguage) => void` | — | Callback on language change |
+| `unstyled` | `boolean` | `false` | Omit built-in styles |
 
-### Variants
+### Limitation — country awareness
 
-- **buttons** — Individual buttons for each language (default)
-- **select** — Native dropdown select element
-  ![Select Dropdown](https://github.com/AliSafari-IT/shared-i18n/blob/main/demo/public/Select%20Dropdown_Text%20Only.png?raw=true)
-- **icon-dropdown** — Custom dropdown showing flag emojis with language codes
-  ![Icon Dropdown](https://github.com/AliSafari-IT/shared-i18n/blob/main/demo/public/Icon%20Dropdown_Limited%20Languages.png?raw=true)
-
-### Examples
+`LanguageSwitcher` emits only a language code (e.g. `"en"`). It cannot distinguish `be-en` from `gb-en`. For locale-aware URLs, use `resolveLocaleFromLanguage` as an adapter:
 
 ```tsx
-// Buttons with custom styling
-<LanguageSwitcher 
+import { LanguageSwitcher } from '@asafarim/shared-i18n';
+import { resolveLocaleFromLanguage } from './i18n/localeAdapter';
+
+<LanguageSwitcher
   variant="buttons"
-  buttonClassName="custom-btn"
-  languages={['en', 'nl', 'fr']}
-/>
-
-// Icon-only dropdown
-<LanguageSwitcher 
-  variant="icon-dropdown"
-  showEmoji={true}
-/>
-
-// Select with callback
-<LanguageSwitcher 
-  variant="select"
-  onChanged={(lang) => console.log(`Language changed to ${lang}`)}
+  onChanged={(lang) => {
+    const { locale, reason, message } = resolveLocaleFromLanguage(currentLocale, lang, countries);
+    if (reason === 'fallback-country') showNotice(message);
+    if (reason !== 'unsupported') navigate(locale);
+  }}
 />
 ```
 
-## Country / Language Selector Integration
+---
 
-For applications serving multiple countries with different official languages, integrate [@asafarim/country-language-selector](https://www.npmjs.com/package/@asafarim/country-language-selector):
+## CountryLanguageSelector
 
-```bash
-pnpm add @asafarim/country-language-selector
-```
-
-### Example: Belgium, Switzerland, Canada
+Country + language selector. Re-exported from `@asafarim/country-language-selector`.
 
 ```tsx
-import { CountryLanguageSelector } from '@asafarim/country-language-selector';
-import { useTranslation } from '@asafarim/shared-i18n';
+import {
+  CountryLanguageSelector,
+  type Country,
+  type Locale,
+} from '@asafarim/shared-i18n';
 
-const countries = [
+const countries: Country[] = [
   {
-    code: 'BE',
-    name: 'Belgium',
-    nativeName: 'België',
-    flag: '🇧🇪',
+    code: 'BE', name: 'Belgium', nativeName: 'België', flag: '🇧🇪',
     languages: [
+      { code: 'en', label: 'English', nativeLabel: 'English' },
       { code: 'nl', label: 'Dutch', nativeLabel: 'Nederlands' },
       { code: 'fr', label: 'French', nativeLabel: 'Français' },
-      { code: 'de', label: 'German', nativeLabel: 'Deutsch' }
     ]
   },
   {
-    code: 'CH',
-    name: 'Switzerland',
-    nativeName: 'Schweiz',
-    flag: '🇨🇭',
+    code: 'NL', name: 'Netherlands', nativeName: 'Nederland', flag: '🇳🇱',
     languages: [
-      { code: 'de', label: 'German', nativeLabel: 'Deutsch' },
-      { code: 'fr', label: 'French', nativeLabel: 'Français' },
-      { code: 'it', label: 'Italian', nativeLabel: 'Italiano' }
+      { code: 'nl', label: 'Dutch', nativeLabel: 'Nederlands' },
+      { code: 'en', label: 'English', nativeLabel: 'English' },
     ]
   },
   {
-    code: 'CA',
-    name: 'Canada',
-    nativeName: 'Canada',
-    flag: '🇨🇦',
+    code: 'GB', name: 'United Kingdom', nativeName: 'United Kingdom', flag: '🇬🇧',
     languages: [
-      { code: 'en', label: 'English' },
-      { code: 'fr', label: 'French', nativeLabel: 'Français' }
+      { code: 'en', label: 'English', nativeLabel: 'English' },
     ]
   }
 ];
 
-export function CountryLanguageBar() {
+function LocaleBar({ locale, onLocaleChange }) {
   const { i18n } = useTranslation();
-
   return (
     <CountryLanguageSelector
       countries={countries}
-      defaultValue={{ country: 'BE', language: 'nl' }}
-      persistKey="user-locale"
+      value={locale}
+      onChange={(next) => {
+        i18n.changeLanguage(next.language);
+        onLocaleChange(next);
+      }}
       triggerVariant="compact"
-      onChange={(locale) => i18n.changeLanguage(locale.language)}
+      flagMode="image"
     />
   );
 }
 ```
 
-### Integration Notes
+### Key Props
 
-- The selector automatically handles country→language relationships
-- Language changes integrate seamlessly with shared-i18n's `useTranslation()` hook
-- Locale persists to localStorage for user preference retention
-- See [full documentation](https://alisafari-it.github.io/country-language-switch/#/get-started) for additional props and customization options
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `countries` | `Country[]` | built-in list | Countries to offer |
+| `value` | `Locale` | — | Controlled value |
+| `defaultValue` | `Locale` | — | Uncontrolled initial value |
+| `onChange` | `(locale, meta) => void` | — | Fired on every change |
+| `triggerVariant` | `"compact" \| "full" \| "flag"` | `"compact"` | Trigger display |
+| `flagMode` | `"emoji" \| "image"` | `"emoji"` | Flag rendering strategy |
+| `align` | `"start" \| "end"` | `"end"` | Popover alignment |
+| `renderTrigger` | `(ctx) => ReactNode` | — | Custom trigger render prop |
+| `persistKey` | `string` | — | localStorage key (uncontrolled only) |
 
+### Comparison: LanguageSwitcher vs CountryLanguageSelector
 
-### initI18n(config?: I18nConfig)
+| Capability | LanguageSwitcher | CountryLanguageSelector |
+|---|---|---|
+| Changes i18n language | ✅ | ✅ via `locale.language` |
+| Knows country | ❌ | ✅ |
+| Represents `be-en` | ❌ | ✅ |
+| Distinguishes `be-en` from `gb-en` | ❌ | ✅ |
+| Best for localized URLs | ❌ needs adapter | ✅ |
+| Best for translation-only apps | ✅ | optional |
 
-Initialize i18next with the shared configuration.
+---
 
-Parameters:
+## CSS Import
 
-- config.defaultNS — Default namespace (default: 'common')
-- config.ns — Namespaces to load (default: ['common'])
-- config.resources — App-specific translation resources
-- config.supportedLngs — Optional list of supported language codes to enable
-- config.defaultLanguage — Optional fallback language code
-
-### useLanguage()
-
-Hook for managing language preferences.
-
-Returns:
-
-- language — Current language code
-- changeLanguage(lang) — Function to change language
-- isChanging — Boolean indicating if language change is in progress
-
-### useTranslation()
-
-Re-exported from react-i18next. See official docs.
-
-### getApiUrl(envVarName?, defaultUrl?)
-
-Configurable API URL resolver for flexible backend integration.
-
-Parameters:
-
-- envVarName — Environment variable name to check (default: 'VITE_API_URL')
-- defaultUrl — Default URL if no env var is set (default: 'http://localhost')
-
-Returns: Resolved API URL string
-
-### setApiUrlResolver(resolver)
-
-Set a custom API URL resolver function for complete control over URL resolution.
-
-Parameters:
-
-- resolver — Function that returns the API URL string
-
-Example:
+When using `CountryLanguageSelector`, import its stylesheet once in your entry point:
 
 ```tsx
-import { setApiUrlResolver, getApiUrl } from '@asafarim/shared-i18n/utils';
-
-// Custom resolver
-setApiUrlResolver(() => 'https://my-custom-api.example.com');
-
-// Or use environment variables
-const url = getApiUrl('VITE_CUSTOM_API_URL', 'https://fallback.example.com');
+import '@asafarim/shared-i18n/country-language-selector.css';
 ```
 
-## Cookie and backend integration
+---
 
-- A preferredLanguage cookie is used to persist the selected language in the browser.
-- If your environment provides an Identity API, updateUserLanguagePreference can sync the preference server-side. If not, the library still works fully client-side.
+## More Languages
 
-To point to a backend, optionally set:
+Add any language by including its JSON files:
+
+```tsx
+initI18n({
+  ns: ['common', 'app'],
+  resources: {
+    en: { app: enApp },
+    nl: { app: nlApp },
+    fr: { app: frApp }
+  },
+  supportedLngs: ['en', 'nl', 'fr'],
+  defaultLanguage: 'en'
+});
+```
+
+---
+
+## API Reference
+
+### `initI18n(config?)`
+
+| Param | Type | Description |
+|-------|------|-------------|
+| `defaultNS` | `string` | Default namespace (default: `'common'`) |
+| `ns` | `string[]` | Namespaces to load |
+| `resources` | object | App-specific translation resources |
+| `supportedLngs` | `string[]` | Override supported languages |
+| `defaultLanguage` | `string` | Fallback language code |
+
+### `useLanguage()`
+
+Returns `{ language, changeLanguage, isChanging }`.
+
+### `useTranslation(ns?)`
+
+Re-exported from react-i18next.
+
+### `getApiUrl(envVarName?, defaultUrl?)`
+
+Configurable API URL resolver.
+
+---
+
+## Cookie & Backend Integration
+
+User language preference is persisted in a `preferredLanguage` cookie. To sync with a backend, set:
 
 ```env
 VITE_IDENTITY_API_URL=https://your-identity.example.com
 ```
 
-## Built-in translations
+---
 
-This package ships with default English and Dutch common translations. You can ignore them and supply your own resources if preferred.
+## Built-in Translations
+
+Ships with English and Dutch for the `common` namespace. Supply your own resources via `initI18n` to override or extend.
 
 ## License
 
